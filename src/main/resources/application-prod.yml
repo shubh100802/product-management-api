@@ -1,0 +1,8 @@
+# ==========production-profile-config==========
+server:
+  forward-headers-strategy: framework
+
+app:
+  security:
+    require-https: true
+

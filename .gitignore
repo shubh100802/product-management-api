@@ -1,0 +1,15 @@
+# ==========git-ignore-rules==========
+/target/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Env
+.env

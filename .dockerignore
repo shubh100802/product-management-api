@@ -1,0 +1,23 @@
+# ==========docker-ignore-rules==========
+# VCS
+.git
+.gitignore
+
+# Build output
+target
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+
+# Assignment artifact
+Java_Backend_Assignment_Zest_India.pdf
+

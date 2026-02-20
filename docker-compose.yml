@@ -1,0 +1,47 @@
+# ==========container-orchestration==========
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: product-api-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-productdb}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-api-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-productdb}
+      DB_USERNAME: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      JWT_SECRET: ${JWT_SECRET:-replace-with-your-own-very-long-random-secret-at-least-32-bytes}
+      JWT_ACCESS_EXP_MS: ${JWT_ACCESS_EXP_MS:-900000}
+      JWT_REFRESH_EXP_MS: ${JWT_REFRESH_EXP_MS:-604800000}
+      BOOTSTRAP_ADMIN_EMAIL: ${BOOTSTRAP_ADMIN_EMAIL:-admin@zest.local}
+      BOOTSTRAP_ADMIN_PASSWORD: ${BOOTSTRAP_ADMIN_PASSWORD:-ChangeMe@123}
+      BOOTSTRAP_ADMIN_NAME: ${BOOTSTRAP_ADMIN_NAME:-Assignment Admin}
+      APP_SECURITY_REQUIRE_HTTPS: ${APP_SECURITY_REQUIRE_HTTPS:-false}
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
+
