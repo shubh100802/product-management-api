@@ -161,9 +161,4 @@ mvn test
 - For production-like usage, use PostgreSQL or Docker and set a strong `JWT_SECRET`.
 - HTTPS enforcement can be enabled using `APP_SECURITY_REQUIRE_HTTPS=true`.
 
-## Submission Checklist
-- Public GitHub repository is accessible.
-- `README.md` includes setup and run instructions.
-- `Dockerfile` and `docker-compose.yml` are present.
-- Swagger and health endpoints are reachable after startup.
-- Tests pass using `mvn test`.
+
